@@ -1,0 +1,25 @@
+# Build
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.sln.docstates
+
+# Logs
+*.log
+
+# gRPC generated files
+**/obj/**/*.cs
+
+# Secrets and env
+appsettings.Development.json
+.env
+.env.local
+
+# Others
+*.dbmdl
+.DS_Store
+Thumbs.db

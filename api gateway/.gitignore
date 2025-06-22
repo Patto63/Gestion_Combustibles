@@ -1,0 +1,51 @@
+## Archivos generados por Visual Studio
+.vs/
+*.user
+*.suo
+
+## Archivos de compilación
+bin/
+obj/
+[Bb]uild/
+[Bb]uild[Ll]og.*
+
+## Paquetes NuGet
+*.nupkg
+*.snupkg
+packages/
+*.nuspec
+
+## Logs
+*.log
+
+## Configuración de usuario
+*.userprefs
+
+## Archivos temporales y del sistema
+*.db
+*.DS_Store
+*.vsidx
+*.sqlite
+*.cache
+*.pdb
+*.tmp
+
+## Archivos generados por Rider o VS Code
+.idea/
+.vscode/
+*.code-workspace
+
+## Archivos de publicación
+publish/
+wwwroot/
+
+## Archivos de Docker
+docker-compose.override.yml
+.env
+
+## Secretos locales
+secrets.json
+
+## Archivos del sistema
+Thumbs.db
+Desktop.ini
