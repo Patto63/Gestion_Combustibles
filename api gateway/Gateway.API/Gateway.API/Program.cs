@@ -10,6 +10,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 //Registro Cliente gRPC
 builder.Services.AddSingleton<VehiculoGrpcClient>();
+builder.Services.AddSingleton<DriverGrpcClient>();
 
 
 var app = builder.Build();

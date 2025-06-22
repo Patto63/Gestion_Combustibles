@@ -1,0 +1,149 @@
+syntax = "proto3";
+
+option csharp_namespace = "DriversService";
+
+package drivers;
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+message ConductorDto {
+  int32 conductorId = 1;
+  string codigo = 2;
+  string nombre = 3;
+  string apellido = 4;
+  string numeroDocumento = 5;
+  string numeroLicencia = 6;
+  string tipoLicencia = 7;
+  google.protobuf.Timestamp fechaExpiracionLicencia = 8;
+  google.protobuf.Timestamp fechaNacimiento = 9;
+  string numeroTelefono = 10;
+  string correoElectronico = 11;
+  string direccion = 12;
+  google.protobuf.Timestamp fechaIngreso = 13;
+  bool estado = 14;
+}
+
+message ConductorCreateRequest {
+  string codigo = 1;
+  string nombre = 2;
+  string apellido = 3;
+  string numeroDocumento = 4;
+  string numeroLicencia = 5;
+  string tipoLicencia = 6;
+  google.protobuf.Timestamp fechaExpiracionLicencia = 7;
+  google.protobuf.Timestamp fechaNacimiento = 8;
+  string numeroTelefono = 9;
+  string correoElectronico = 10;
+  string direccion = 11;
+  google.protobuf.Timestamp fechaIngreso = 12;
+}
+
+message ConductorIdRequest { int32 conductorId = 1; }
+
+message ConductorUpdateRequest {
+  int32 conductorId = 1;
+  optional string codigo = 2;
+  optional string nombre = 3;
+  optional string apellido = 4;
+  optional string numeroDocumento = 5;
+  optional string numeroLicencia = 6;
+  optional string tipoLicencia = 7;
+  optional google.protobuf.Timestamp fechaExpiracionLicencia = 8;
+  optional google.protobuf.Timestamp fechaNacimiento = 9;
+  optional string numeroTelefono = 10;
+  optional string correoElectronico = 11;
+  optional string direccion = 12;
+  optional bool estado = 13;
+}
+
+message ListaConductores { repeated ConductorDto conductores = 1; }
+
+message EspecialidadDto {
+  int32 especialidadId = 1;
+  int32 conductorId = 2;
+  string tipoMaquinaria = 3;
+  string descripcion = 4;
+  string numeroCertificacion = 5;
+  google.protobuf.Timestamp fechaCertificacion = 6;
+  google.protobuf.Timestamp expiracionCertificacion = 7;
+}
+
+message EspecialidadCreateRequest {
+  int32 conductorId = 1;
+  string tipoMaquinaria = 2;
+  string descripcion = 3;
+  string numeroCertificacion = 4;
+  google.protobuf.Timestamp fechaCertificacion = 5;
+  google.protobuf.Timestamp expiracionCertificacion = 6;
+}
+
+message EspecialidadIdRequest { int32 especialidadId = 1; }
+
+message EspecialidadUpdateRequest {
+  int32 especialidadId = 1;
+  optional string tipoMaquinaria = 2;
+  optional string descripcion = 3;
+  optional string numeroCertificacion = 4;
+  optional google.protobuf.Timestamp fechaCertificacion = 5;
+  optional google.protobuf.Timestamp expiracionCertificacion = 6;
+}
+
+message ListaEspecialidades { repeated EspecialidadDto especialidades = 1; }
+
+message AsignacionDto {
+  int32 asignacionId = 1;
+  int32 conductorId = 2;
+  string codigoVehiculo = 3;
+  string tipoMaquinaria = 4;
+  google.protobuf.Timestamp fechaInicioAsignacion = 5;
+  google.protobuf.Timestamp fechaFinAsignacion = 6;
+  string estado = 7;
+  string creadoPor = 8;
+}
+
+message AsignacionCreateRequest {
+  int32 conductorId = 1;
+  string codigoVehiculo = 2;
+  string tipoMaquinaria = 3;
+  google.protobuf.Timestamp fechaInicioAsignacion = 4;
+  google.protobuf.Timestamp fechaFinAsignacion = 5;
+  string estado = 6;
+  string creadoPor = 7;
+}
+
+message AsignacionIdRequest { int32 asignacionId = 1; }
+
+message AsignacionUpdateRequest {
+  int32 asignacionId = 1;
+  optional string codigoVehiculo = 2;
+  optional string tipoMaquinaria = 3;
+  optional google.protobuf.Timestamp fechaInicioAsignacion = 4;
+  optional google.protobuf.Timestamp fechaFinAsignacion = 5;
+  optional string estado = 6;
+}
+
+message ListaAsignaciones { repeated AsignacionDto asignaciones = 1; }
+
+service DriverService {
+  // Conductores
+  rpc CrearConductor (ConductorCreateRequest) returns (ConductorDto);
+  rpc ObtenerConductorPorId (ConductorIdRequest) returns (ConductorDto);
+  rpc ListarConductores (google.protobuf.Empty) returns (ListaConductores);
+  rpc EditarConductor (ConductorUpdateRequest) returns (ConductorDto);
+  rpc EliminarConductor (ConductorIdRequest) returns (google.protobuf.Empty);
+
+  // Especialidades
+  rpc CrearEspecialidad (EspecialidadCreateRequest) returns (EspecialidadDto);
+  rpc ObtenerEspecialidadPorId (EspecialidadIdRequest) returns (EspecialidadDto);
+  rpc ListarEspecialidades (google.protobuf.Empty) returns (ListaEspecialidades);
+  rpc EditarEspecialidad (EspecialidadUpdateRequest) returns (EspecialidadDto);
+  rpc EliminarEspecialidad (EspecialidadIdRequest) returns (google.protobuf.Empty);
+
+  // Asignaciones
+  rpc CrearAsignacion (AsignacionCreateRequest) returns (AsignacionDto);
+  rpc ObtenerAsignacionPorId (AsignacionIdRequest) returns (AsignacionDto);
+  rpc ListarAsignaciones (google.protobuf.Empty) returns (ListaAsignaciones);
+  rpc EditarAsignacion (AsignacionUpdateRequest) returns (AsignacionDto);
+  rpc EliminarAsignacion (AsignacionIdRequest) returns (google.protobuf.Empty);
+}
