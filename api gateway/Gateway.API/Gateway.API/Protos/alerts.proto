@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+option csharp_namespace = "AlertsService";
+
+package alerts;
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+message AlertaDto {
+  int32 alertaId = 1;
+  string codigoVehiculo = 2;
+  string codigoConductor = 3;
+  string codigoRuta = 4;
+  int32 registroId = 5;
+  string tipoMaquinaria = 6;
+  string tipoAlerta = 7;
+  double porcentajeDiferencia = 8;
+  bool estado = 9;
+  string descripcion = 10;
+  google.protobuf.Timestamp creadoEn = 11;
+  google.protobuf.Timestamp revisadoEn = 12;
+  string revisadoPor = 13;
+}
+
+message AlertaCreateRequest {
+  string codigoVehiculo = 1;
+  string codigoConductor = 2;
+  string codigoRuta = 3;
+  int32 registroId = 4;
+  string tipoMaquinaria = 5;
+  string tipoAlerta = 6;
+  double porcentajeDiferencia = 7;
+  bool estado = 8;
+  string descripcion = 9;
+}
+
+message AlertaIdRequest { int32 alertaId = 1; }
+
+message AlertaUpdateRequest {
+  int32 alertaId = 1;
+  optional string codigoVehiculo = 2;
+  optional string codigoConductor = 3;
+  optional string codigoRuta = 4;
+  optional int32 registroId = 5;
+  optional string tipoMaquinaria = 6;
+  optional string tipoAlerta = 7;
+  optional double porcentajeDiferencia = 8;
+  optional bool estado = 9;
+  optional string descripcion = 10;
+  optional google.protobuf.Timestamp revisadoEn = 11;
+  optional string revisadoPor = 12;
+}
+
+message CodigoVehiculoRequest { string codigoVehiculo = 1; }
+message CodigoConductorRequest { string codigoConductor = 1; }
+message CodigoRutaRequest { string codigoRuta = 1; }
+
+message ListaAlertas { repeated AlertaDto alertas = 1; }
+
+service AlertsService {
+  rpc CrearAlerta (AlertaCreateRequest) returns (AlertaDto);
+  rpc ObtenerAlerta (AlertaIdRequest) returns (AlertaDto);
+  rpc ListarAlertas (google.protobuf.Empty) returns (ListaAlertas);
+  rpc EditarAlerta (AlertaUpdateRequest) returns (AlertaDto);
+  rpc EliminarAlerta (AlertaIdRequest) returns (google.protobuf.Empty);
+
+  rpc AlertasPorVehiculo (CodigoVehiculoRequest) returns (ListaAlertas);
+  rpc AlertasPorConductor (CodigoConductorRequest) returns (ListaAlertas);
+  rpc AlertasPorRuta (CodigoRutaRequest) returns (ListaAlertas);
+}

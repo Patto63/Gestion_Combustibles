@@ -14,6 +14,7 @@ builder.Services.AddSingleton<DriverGrpcClient>();
 
 builder.Services.AddSingleton<FuelGrpcClient>();
 builder.Services.AddSingleton<RouteGrpcClient>();
+builder.Services.AddSingleton<AlertsGrpcClient>();
 
 
 
