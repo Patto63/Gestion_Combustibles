@@ -1,0 +1,188 @@
+syntax = "proto3";
+
+option csharp_namespace = "FuelService";
+
+package fuel;
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+message RegistroCombustibleDto {
+  int32 registroId = 1;
+  google.protobuf.Timestamp fecha = 2;
+  string codigoVehiculo = 3;
+  string codigoConductor = 4;
+  string codigoRuta = 5;
+  string tipoMaquinaria = 6;
+  double odometroInicial = 7;
+  double odometroFinal = 8;
+  double distancia = 9;
+  double cantidadCombustible = 10;
+  double precioCombustible = 11;
+  double costoTotal = 12;
+  double consumoReal = 13;
+  double consumoEstimado = 14;
+  double diferencia = 15;
+  string tipoCombustible = 16;
+  string numeroFactura = 17;
+  string nombreEstacionServicio = 18;
+  string comentarios = 19;
+  google.protobuf.Timestamp creadoEn = 20;
+  string creadoPor = 21;
+}
+
+message RegistroCombustibleCreateRequest {
+  google.protobuf.Timestamp fecha = 1;
+  string codigoVehiculo = 2;
+  string codigoConductor = 3;
+  string codigoRuta = 4;
+  string tipoMaquinaria = 5;
+  double odometroInicial = 6;
+  double odometroFinal = 7;
+  double distancia = 8;
+  double cantidadCombustible = 9;
+  double precioCombustible = 10;
+  double consumoEstimado = 11;
+  string tipoCombustible = 12;
+  string numeroFactura = 13;
+  string nombreEstacionServicio = 14;
+  string comentarios = 15;
+  string creadoPor = 16;
+}
+
+message RegistroCombustibleIdRequest { int32 registroId = 1; }
+
+message RegistroCombustibleUpdateRequest {
+  int32 registroId = 1;
+  optional google.protobuf.Timestamp fecha = 2;
+  optional string codigoVehiculo = 3;
+  optional string codigoConductor = 4;
+  optional string codigoRuta = 5;
+  optional string tipoMaquinaria = 6;
+  optional double odometroInicial = 7;
+  optional double odometroFinal = 8;
+  optional double distancia = 9;
+  optional double cantidadCombustible = 10;
+  optional double precioCombustible = 11;
+  optional double consumoEstimado = 12;
+  optional string tipoCombustible = 13;
+  optional string numeroFactura = 14;
+  optional string nombreEstacionServicio = 15;
+  optional string comentarios = 16;
+}
+
+message ListaRegistrosCombustible { repeated RegistroCombustibleDto registros = 1; }
+
+message ConsumoRutaDto {
+  int32 consumoId = 1;
+  string codigoRuta = 2;
+  string periodo = 3;
+  string tipoMaquinaria = 4;
+  int32 totalVehiculos = 5;
+  double distanciaTotal = 6;
+  double combustibleTotal = 7;
+  double costoTotal = 8;
+  double consumoPromedio = 9;
+  double consumoEstimado = 10;
+  double porcentajeDiferencia = 11;
+  google.protobuf.Timestamp creadoEn = 12;
+  google.protobuf.Timestamp actualizadoEn = 13;
+}
+
+message ConsumoRutaCreateRequest {
+  string codigoRuta = 1;
+  string periodo = 2;
+  string tipoMaquinaria = 3;
+  int32 totalVehiculos = 4;
+  double distanciaTotal = 5;
+  double combustibleTotal = 6;
+  double costoTotal = 7;
+  double consumoPromedio = 8;
+  double consumoEstimado = 9;
+  double porcentajeDiferencia = 10;
+}
+
+message ConsumoRutaIdRequest { int32 consumoId = 1; }
+
+message ConsumoRutaUpdateRequest {
+  int32 consumoId = 1;
+  optional string codigoRuta = 2;
+  optional string periodo = 3;
+  optional string tipoMaquinaria = 4;
+  optional int32 totalVehiculos = 5;
+  optional double distanciaTotal = 6;
+  optional double combustibleTotal = 7;
+  optional double costoTotal = 8;
+  optional double consumoPromedio = 9;
+  optional double consumoEstimado = 10;
+  optional double porcentajeDiferencia = 11;
+}
+
+message ListaConsumoRuta { repeated ConsumoRutaDto consumos = 1; }
+
+message ConsumoTipoMaquinariaDto {
+  int32 consumoMaquinariaId = 1;
+  string tipoMaquinaria = 2;
+  string periodo = 3;
+  int32 totalVehiculos = 4;
+  double distanciaTotal = 5;
+  double combustibleTotal = 6;
+  double costoTotal = 7;
+  double consumoPromedio = 8;
+  double consumoEstimado = 9;
+  double porcentajeDiferencia = 10;
+  google.protobuf.Timestamp creadoEn = 11;
+  google.protobuf.Timestamp actualizadoEn = 12;
+}
+
+message ConsumoTipoMaquinariaCreateRequest {
+  string tipoMaquinaria = 1;
+  string periodo = 2;
+  int32 totalVehiculos = 3;
+  double distanciaTotal = 4;
+  double combustibleTotal = 5;
+  double costoTotal = 6;
+  double consumoPromedio = 7;
+  double consumoEstimado = 8;
+  double porcentajeDiferencia = 9;
+}
+
+message ConsumoTipoMaquinariaIdRequest { int32 consumoMaquinariaId = 1; }
+
+message ConsumoTipoMaquinariaUpdateRequest {
+  int32 consumoMaquinariaId = 1;
+  optional string tipoMaquinaria = 2;
+  optional string periodo = 3;
+  optional int32 totalVehiculos = 4;
+  optional double distanciaTotal = 5;
+  optional double combustibleTotal = 6;
+  optional double costoTotal = 7;
+  optional double consumoPromedio = 8;
+  optional double consumoEstimado = 9;
+  optional double porcentajeDiferencia = 10;
+}
+
+message ListaConsumoTipoMaquinaria { repeated ConsumoTipoMaquinariaDto consumos = 1; }
+
+service FuelService {
+  // Registros de Combustible
+  rpc CrearRegistro (RegistroCombustibleCreateRequest) returns (RegistroCombustibleDto);
+  rpc ObtenerRegistro (RegistroCombustibleIdRequest) returns (RegistroCombustibleDto);
+  rpc ListarRegistros (google.protobuf.Empty) returns (ListaRegistrosCombustible);
+  rpc EditarRegistro (RegistroCombustibleUpdateRequest) returns (RegistroCombustibleDto);
+  rpc EliminarRegistro (RegistroCombustibleIdRequest) returns (google.protobuf.Empty);
+
+  // Consumos por Ruta
+  rpc CrearConsumoRuta (ConsumoRutaCreateRequest) returns (ConsumoRutaDto);
+  rpc ObtenerConsumoRuta (ConsumoRutaIdRequest) returns (ConsumoRutaDto);
+  rpc ListarConsumoRuta (google.protobuf.Empty) returns (ListaConsumoRuta);
+  rpc EditarConsumoRuta (ConsumoRutaUpdateRequest) returns (ConsumoRutaDto);
+  rpc EliminarConsumoRuta (ConsumoRutaIdRequest) returns (google.protobuf.Empty);
+
+  // Consumos por Tipo de Maquinaria
+  rpc CrearConsumoTipoMaquinaria (ConsumoTipoMaquinariaCreateRequest) returns (ConsumoTipoMaquinariaDto);
+  rpc ObtenerConsumoTipoMaquinaria (ConsumoTipoMaquinariaIdRequest) returns (ConsumoTipoMaquinariaDto);
+  rpc ListarConsumoTipoMaquinaria (google.protobuf.Empty) returns (ListaConsumoTipoMaquinaria);
+  rpc EditarConsumoTipoMaquinaria (ConsumoTipoMaquinariaUpdateRequest) returns (ConsumoTipoMaquinariaDto);
+  rpc EliminarConsumoTipoMaquinaria (ConsumoTipoMaquinariaIdRequest) returns (google.protobuf.Empty);
+}

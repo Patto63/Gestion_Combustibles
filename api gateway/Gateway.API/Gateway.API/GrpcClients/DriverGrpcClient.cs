@@ -1,6 +1,9 @@
 using Grpc.Net.Client;
 using Google.Protobuf.WellKnownTypes;
 using DriversService;
+using DriverGrpc = DriversService.ConductorDto;
+using DriverCreateGrpc = DriversService.ConductorCreateRequest;
+using DriverUpdateGrpc = DriversService.ConductorUpdateRequest;
 
 namespace Gateway.API.GrpcClients;
 
@@ -18,12 +21,14 @@ public class DriverGrpcClient
         _client = new DriverService.DriverServiceClient(channel);
     }
 
-    public async Task<IEnumerable<Gateway.API.Models.ConductorDto>> GetAllAsync()
+
+    public async Task<IEnumerable<Models.ConductorDto>> GetAllAsync()
     {
         try
         {
             var response = await _client.ListarConductoresAsync(new Empty());
-            return response.Conductores.Select(c => new Gateway.API.Models.ConductorDto
+            return response.Conductores.Select(c => new Models.ConductorDto
+
             {
                 ConductorId = c.ConductorId,
                 Codigo = c.Codigo,
@@ -47,12 +52,14 @@ public class DriverGrpcClient
         }
     }
 
-    public async Task<Gateway.API.Models.ConductorDto?> GetByIdAsync(int id)
+    public async Task<Models.ConductorDto?> GetByIdAsync(int id)
     {
         try
         {
             var response = await _client.ObtenerConductorPorIdAsync(new ConductorIdRequest { ConductorId = id });
-            return new Gateway.API.Models.ConductorDto
+
+            return new Models.ConductorDto
+
             {
                 ConductorId = response.ConductorId,
                 Codigo = response.Codigo,
@@ -80,11 +87,12 @@ public class DriverGrpcClient
         }
     }
 
-    public async Task<Gateway.API.Models.ConductorDto> CreateAsync(Gateway.API.Models.ConductorCreateRequest request)
+
+    public async Task<Models.ConductorDto> CreateAsync(Models.ConductorCreateRequest request)
     {
         try
         {
-            var grpcRequest = new DriversService.ConductorCreateRequest
+            var grpcRequest = new DriverCreateGrpc
             {
                 Codigo = request.Codigo,
                 Nombre = request.Nombre,
@@ -102,7 +110,9 @@ public class DriverGrpcClient
 
             var response = await _client.CrearConductorAsync(grpcRequest);
 
-            return new Gateway.API.Models.ConductorDto
+
+            return new Models.ConductorDto
+
             {
                 ConductorId = response.ConductorId,
                 Codigo = response.Codigo,
@@ -126,11 +136,12 @@ public class DriverGrpcClient
         }
     }
 
-    public async Task<Gateway.API.Models.ConductorDto> UpdateAsync(int id, Gateway.API.Models.ConductorUpdateRequest request)
+    public async Task<Models.ConductorDto> UpdateAsync(int id, Models.ConductorUpdateRequest request)
     {
         try
         {
-            var grpcRequest = new DriversService.ConductorUpdateRequest
+            var grpcRequest = new DriverUpdateGrpc
+
             {
                 ConductorId = id
             };
@@ -150,7 +161,8 @@ public class DriverGrpcClient
 
             var response = await _client.EditarConductorAsync(grpcRequest);
 
-            return new Gateway.API.Models.ConductorDto
+
+            return new Models.ConductorDto
             {
                 ConductorId = response.ConductorId,
                 Codigo = response.Codigo,

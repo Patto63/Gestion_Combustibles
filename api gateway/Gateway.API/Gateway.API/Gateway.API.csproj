@@ -21,7 +21,9 @@
         <ItemGroup>
                 <Protobuf Include="Protos\vehicle.proto" GrpcServices="Client" />
                 <Protobuf Include="Protos\driver.proto" GrpcServices="Client" />
+                <Protobuf Include="Protos\fuel.proto" GrpcServices="Client" />
                 <Protobuf Include="Protos\routes.proto" GrpcServices="Client" />
+
         </ItemGroup>
 
 </Project>
