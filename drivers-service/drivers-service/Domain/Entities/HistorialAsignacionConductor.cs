@@ -11,6 +11,7 @@ public class HistorialAsignacionConductor
     public string? Estado { get; set; }
     public DateTime CreadoEn { get; set; }
     public string? CreadoPor { get; set; }
+    public DateTime? ActualizadoEn { get; set; }
 
     public Conductor? Conductor { get; set; }
 }
