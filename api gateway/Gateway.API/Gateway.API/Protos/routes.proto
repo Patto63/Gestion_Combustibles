@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+option csharp_namespace = "RoutesService";
+
+package routes;
+
+import "google/protobuf/empty.proto";
+
+message RutaDto {
+  int32 rutaId = 1;
+  string codigo = 2;
+  string nombre = 3;
+  int32 origenId = 4;
+  int32 destinoId = 5;
+  double distancia = 6;
+  double tiempoEstimado = 7;
+  string tipoTerreno = 8;
+  string descripcion = 9;
+  bool estaActiva = 10;
+}
+
+message UbicacionDto {
+  int32 ubicacionId = 1;
+  string nombre = 2;
+  string direccion = 3;
+  string ciudad = 4;
+  string estado = 5;
+  string pais = 6;
+  double latitud = 7;
+  double longitud = 8;
+  string tipo = 9;
+}
+
+message SegmentoDto {
+  int32 segmentoId = 1;
+  int32 rutaId = 2;
+  int32 numeroSecuencia = 3;
+  int32 ubicacionInicioId = 4;
+  int32 ubicacionFinId = 5;
+  double distanciaSegmento = 6;
+  double tiempoSegmento = 7;
+  string tipoTerreno = 8;
+  string descripcion = 9;
+}
+
+message ListaRutas { repeated RutaDto rutas = 1; }
+message ListaUbicaciones { repeated UbicacionDto ubicaciones = 1; }
+message ListaSegmentos { repeated SegmentoDto segmentos = 1; }
+
+service RouteService {
+  rpc ListarRutas (google.protobuf.Empty) returns (ListaRutas);
+  rpc ListarUbicaciones (google.protobuf.Empty) returns (ListaUbicaciones);
+  rpc ListarSegmentos (google.protobuf.Empty) returns (ListaSegmentos);
+}
