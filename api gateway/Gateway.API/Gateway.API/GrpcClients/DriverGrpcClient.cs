@@ -1,5 +1,4 @@
 using Grpc.Net.Client;
-using Gateway.API.Models;
 using Google.Protobuf.WellKnownTypes;
 using DriversService;
 using DriverGrpc = DriversService.ConductorDto;
@@ -22,12 +21,14 @@ public class DriverGrpcClient
         _client = new DriverService.DriverServiceClient(channel);
     }
 
+
     public async Task<IEnumerable<Models.ConductorDto>> GetAllAsync()
     {
         try
         {
             var response = await _client.ListarConductoresAsync(new Empty());
             return response.Conductores.Select(c => new Models.ConductorDto
+
             {
                 ConductorId = c.ConductorId,
                 Codigo = c.Codigo,
@@ -56,7 +57,9 @@ public class DriverGrpcClient
         try
         {
             var response = await _client.ObtenerConductorPorIdAsync(new ConductorIdRequest { ConductorId = id });
+
             return new Models.ConductorDto
+
             {
                 ConductorId = response.ConductorId,
                 Codigo = response.Codigo,
@@ -84,6 +87,7 @@ public class DriverGrpcClient
         }
     }
 
+
     public async Task<Models.ConductorDto> CreateAsync(Models.ConductorCreateRequest request)
     {
         try
@@ -106,7 +110,9 @@ public class DriverGrpcClient
 
             var response = await _client.CrearConductorAsync(grpcRequest);
 
+
             return new Models.ConductorDto
+
             {
                 ConductorId = response.ConductorId,
                 Codigo = response.Codigo,
@@ -135,6 +141,7 @@ public class DriverGrpcClient
         try
         {
             var grpcRequest = new DriverUpdateGrpc
+
             {
                 ConductorId = id
             };
@@ -153,6 +160,7 @@ public class DriverGrpcClient
             if (request.Estado.HasValue) grpcRequest.Estado = request.Estado.Value;
 
             var response = await _client.EditarConductorAsync(grpcRequest);
+
 
             return new Models.ConductorDto
             {

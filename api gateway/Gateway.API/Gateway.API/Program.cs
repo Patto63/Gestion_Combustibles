@@ -11,7 +11,10 @@ builder.Services.AddSwaggerGen();
 //Registro Cliente gRPC
 builder.Services.AddSingleton<VehiculoGrpcClient>();
 builder.Services.AddSingleton<DriverGrpcClient>();
+
 builder.Services.AddSingleton<FuelGrpcClient>();
+builder.Services.AddSingleton<RouteGrpcClient>();
+
 
 
 var app = builder.Build();
