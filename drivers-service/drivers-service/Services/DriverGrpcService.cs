@@ -110,8 +110,8 @@ public class DriverGrpcService : DriverService.DriverServiceBase
         if (request.HasNumeroDocumento) entity.NumeroDocumento = request.NumeroDocumento;
         if (request.HasNumeroLicencia) entity.NumeroLicencia = request.NumeroLicencia;
         if (request.HasTipoLicencia) entity.TipoLicencia = request.TipoLicencia;
-        if (request.HasFechaExpiracionLicencia) entity.FechaExpiracionLicencia = request.FechaExpiracionLicencia.ToDateTime();
-        if (request.HasFechaNacimiento) entity.FechaNacimiento = request.FechaNacimiento.ToDateTime();
+        if (request.FechaExpiracionLicencia != null) entity.FechaExpiracionLicencia = request.FechaExpiracionLicencia.ToDateTime();
+        if (request.FechaNacimiento != null) entity.FechaNacimiento = request.FechaNacimiento.ToDateTime();
         if (request.HasNumeroTelefono) entity.NumeroTelefono = request.NumeroTelefono;
         if (request.HasCorreoElectronico) entity.CorreoElectronico = request.CorreoElectronico;
         if (request.HasDireccion) entity.Direccion = request.Direccion;
@@ -175,8 +175,8 @@ public class DriverGrpcService : DriverService.DriverServiceBase
         if (request.HasTipoMaquinaria) entity.TipoMaquinaria = request.TipoMaquinaria;
         if (request.HasDescripcion) entity.Descripcion = request.Descripcion;
         if (request.HasNumeroCertificacion) entity.NumeroCertificacion = request.NumeroCertificacion;
-        if (request.HasFechaCertificacion) entity.FechaCertificacion = request.FechaCertificacion.ToDateTime();
-        if (request.HasExpiracionCertificacion) entity.ExpiracionCertificacion = request.ExpiracionCertificacion.ToDateTime();
+        if (request.FechaCertificacion != null) entity.FechaCertificacion = request.FechaCertificacion.ToDateTime();
+        if (request.ExpiracionCertificacion != null) entity.ExpiracionCertificacion = request.ExpiracionCertificacion.ToDateTime();
         entity.ActualizadoEn = DateTime.UtcNow;
 
         await _context.SaveChangesAsync();
@@ -236,8 +236,8 @@ public class DriverGrpcService : DriverService.DriverServiceBase
 
         if (request.HasCodigoVehiculo) entity.CodigoVehiculo = request.CodigoVehiculo;
         if (request.HasTipoMaquinaria) entity.TipoMaquinaria = request.TipoMaquinaria;
-        if (request.HasFechaInicioAsignacion) entity.FechaInicioAsignacion = request.FechaInicioAsignacion.ToDateTime();
-        if (request.HasFechaFinAsignacion) entity.FechaFinAsignacion = request.FechaFinAsignacion.ToDateTime();
+        if (request.FechaInicioAsignacion != null) entity.FechaInicioAsignacion = request.FechaInicioAsignacion.ToDateTime();
+        if (request.FechaFinAsignacion != null) entity.FechaFinAsignacion = request.FechaFinAsignacion.ToDateTime();
         if (request.HasEstado) entity.Estado = request.Estado;
         entity.ActualizadoEn = DateTime.UtcNow;
 
