@@ -1,0 +1,73 @@
+version: '3.9'
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Your_password123"
+    ports:
+      - "1433:1433"
+
+  vehicles-service:
+    build: ./vehicles-service/vehicle-service/vehicle-service
+    environment:
+      ConnectionStrings__DefaultConnection: "Server=sqlserver;Database=vehicle_db;User Id=sa;Password=Your_password123;TrustServerCertificate=True;"
+    depends_on:
+      - sqlserver
+    ports:
+      - "5117:8080"
+
+  drivers-service:
+    build: ./drivers-service/drivers-service
+    environment:
+      ConnectionStrings__DefaultConnection: "Server=sqlserver;Database=drivers_db;User Id=sa;Password=Your_password123;TrustServerCertificate=True;"
+    depends_on:
+      - sqlserver
+    ports:
+      - "5120:8080"
+
+  fuel-service:
+    build: ./fuel-service/fuel-service
+    environment:
+      ConnectionStrings__DefaultConnection: "Server=sqlserver;Database=fuel_db;User Id=sa;Password=Your_password123;TrustServerCertificate=True;"
+    depends_on:
+      - sqlserver
+    ports:
+      - "5125:8080"
+
+  routes-service:
+    build: ./routes-service/routes-service
+    environment:
+      ConnectionStrings__DefaultConnection: "Server=sqlserver;Database=routes_db;User Id=sa;Password=Your_password123;TrustServerCertificate=True;"
+    depends_on:
+      - sqlserver
+    ports:
+      - "5123:8080"
+
+  alerts-service:
+    build: ./alerts-service/alerts-service
+    environment:
+      ConnectionStrings__DefaultConnection: "Server=sqlserver;Database=alerts_db;User Id=sa;Password=Your_password123;TrustServerCertificate=True;"
+    depends_on:
+      - sqlserver
+    ports:
+      - "5127:8080"
+
+  gateway:
+    build:
+      context: "./api gateway/Gateway.API/Gateway.API"
+    environment:
+      GrpcSettings__VehiclesService: "http://vehicles-service:8080"
+      GrpcSettings__DriversService: "http://drivers-service:8080"
+      GrpcSettings__FuelService: "http://fuel-service:8080"
+      GrpcSettings__RoutesService: "http://routes-service:8080"
+      GrpcSettings__AlertsService: "http://alerts-service:8080"
+    depends_on:
+      - vehicles-service
+      - drivers-service
+      - fuel-service
+      - routes-service
+      - alerts-service
+    ports:
+      - "8080:8080"

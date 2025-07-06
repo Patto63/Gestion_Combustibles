@@ -10,6 +10,13 @@ builder.Services.AddDbContext<RoutesDbContext>(options =>
 
 var app = builder.Build();
 
+// Ensure database is created on startup
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<RoutesDbContext>();
+    db.Database.EnsureCreated();
+}
+
 app.MapGrpcService<RouteGrpcService>();
 app.MapGet("/", () => "gRPC service for routes");
 
