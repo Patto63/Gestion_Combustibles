@@ -63,6 +63,7 @@ public class DriversDbContext : DbContext
         asig.Property(a => a.Estado).HasColumnName("estado");
         asig.Property(a => a.CreadoEn).HasColumnName("creado_en");
         asig.Property(a => a.CreadoPor).HasColumnName("creado_por");
+        asig.Property(a => a.ActualizadoEn).HasColumnName("actualizado_en");
         asig.HasOne(a => a.Conductor).WithMany(c => c.Asignaciones).HasForeignKey(a => a.ConductorId);
     }
 }
