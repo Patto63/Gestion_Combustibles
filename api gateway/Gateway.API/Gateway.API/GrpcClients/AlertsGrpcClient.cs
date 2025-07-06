@@ -2,6 +2,7 @@ using Grpc.Net.Client;
 using Gateway.API.Models;
 using Google.Protobuf.WellKnownTypes;
 using AlertsService;
+using GrpcAlertDto = AlertsService.AlertaDto;
 
 namespace Gateway.API.GrpcClients;
 
@@ -120,7 +121,7 @@ public class AlertsGrpcClient
         }
     }
 
-    private static AlertaDto MapDto(AlertsService.AlertaDto a) => new AlertaDto
+    private static AlertaDto MapDto(GrpcAlertDto a) => new AlertaDto
     {
         AlertaId = a.AlertaId,
         CodigoVehiculo = a.CodigoVehiculo,
