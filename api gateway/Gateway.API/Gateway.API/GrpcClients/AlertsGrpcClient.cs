@@ -1,7 +1,8 @@
 using Grpc.Net.Client;
-using Model = Gateway.API.Models;
+using Gateway.API.Models;
 using Google.Protobuf.WellKnownTypes;
 using AlertsService;
+using GrpcAlertDto = AlertsService.AlertaDto;
 
 namespace Gateway.API.GrpcClients;
 
@@ -19,10 +20,10 @@ public class AlertsGrpcClient
         _client = new AlertsService.AlertsServiceClient(channel);
     }
 
-    public async Task<IEnumerable<Model.AlertaDto>> GetAllAsync()
+    public async Task<IEnumerable<AlertaDto>> GetAllAsync()
     {
         var response = await _client.ListarAlertasAsync(new Empty());
-        return response.Alertas.Select(a => new Model.AlertaDto
+        return response.Alertas.Select(a => new AlertaDto
         {
             AlertaId = a.AlertaId,
             CodigoVehiculo = a.CodigoVehiculo,
@@ -40,25 +41,25 @@ public class AlertsGrpcClient
         });
     }
 
-    public async Task<IEnumerable<Model.AlertaDto>> GetByVehiculoAsync(string codigo)
+    public async Task<IEnumerable<AlertaDto>> GetByVehiculoAsync(string codigo)
     {
         var response = await _client.AlertasPorVehiculoAsync(new CodigoVehiculoRequest { CodigoVehiculo = codigo });
         return response.Alertas.Select(MapDto);
     }
 
-    public async Task<IEnumerable<Model.AlertaDto>> GetByConductorAsync(string codigo)
+    public async Task<IEnumerable<AlertaDto>> GetByConductorAsync(string codigo)
     {
         var response = await _client.AlertasPorConductorAsync(new CodigoConductorRequest { CodigoConductor = codigo });
         return response.Alertas.Select(MapDto);
     }
 
-    public async Task<IEnumerable<Model.AlertaDto>> GetByRutaAsync(string codigo)
+    public async Task<IEnumerable<AlertaDto>> GetByRutaAsync(string codigo)
     {
         var response = await _client.AlertasPorRutaAsync(new CodigoRutaRequest { CodigoRuta = codigo });
         return response.Alertas.Select(MapDto);
     }
 
-    public async Task<Model.AlertaDto?> GetByIdAsync(int id)
+    public async Task<AlertaDto?> GetByIdAsync(int id)
     {
         try
         {
@@ -71,7 +72,7 @@ public class AlertsGrpcClient
         }
     }
 
-    public async Task<Model.AlertaDto> CreateAsync(Model.AlertaCreateRequestModel request)
+    public async Task<AlertaDto> CreateAsync(AlertaCreateRequestModel request)
     {
         var grpcRequest = new AlertsService.AlertaCreateRequest
         {
@@ -89,7 +90,7 @@ public class AlertsGrpcClient
         return MapDto(a);
     }
 
-    public async Task<Model.AlertaDto> UpdateAsync(int id, Model.AlertaUpdateRequestModel request)
+    public async Task<AlertaDto> UpdateAsync(int id, AlertaUpdateRequestModel request)
     {
         var grpcRequest = new AlertsService.AlertaUpdateRequest { AlertaId = id };
         if (request.CodigoVehiculo != null) grpcRequest.CodigoVehiculo = request.CodigoVehiculo;
@@ -120,7 +121,7 @@ public class AlertsGrpcClient
         }
     }
 
-    private static Model.AlertaDto MapDto(AlertsService.AlertaDto a) => new Model.AlertaDto
+    private static AlertaDto MapDto(GrpcAlertDto a) => new AlertaDto
     {
         AlertaId = a.AlertaId,
         CodigoVehiculo = a.CodigoVehiculo,
