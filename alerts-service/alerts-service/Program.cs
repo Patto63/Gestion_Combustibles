@@ -10,6 +10,13 @@ builder.Services.AddDbContext<AlertsDbContext>(options =>
 
 var app = builder.Build();
 
+// Ensure database is created on startup
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AlertsDbContext>();
+    db.Database.EnsureCreated();
+}
+
 app.MapGrpcService<AlertsGrpcService>();
 app.MapGet("/", () => "gRPC service for alerts");
 
