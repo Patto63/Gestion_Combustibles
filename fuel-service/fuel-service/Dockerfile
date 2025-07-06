@@ -8,10 +8,10 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["fuel-service/fuel-service.csproj", "fuel-service/"]
-RUN dotnet restore "fuel-service/fuel-service.csproj"
+COPY ["fuel-service.csproj", "."]
+RUN dotnet restore "fuel-service.csproj"
 COPY . .
-WORKDIR "/src/fuel-service"
+WORKDIR "/src"
 RUN dotnet build "fuel-service.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish

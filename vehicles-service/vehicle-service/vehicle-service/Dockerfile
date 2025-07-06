@@ -12,10 +12,10 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["vehicle-service/vehicle-service.csproj", "vehicle-service/"]
-RUN dotnet restore "./vehicle-service/vehicle-service.csproj"
+COPY ["vehicle-service.csproj", "."]
+RUN dotnet restore "./vehicle-service.csproj"
 COPY . .
-WORKDIR "/src/vehicle-service"
+WORKDIR "/src"
 RUN dotnet build "./vehicle-service.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # Esta fase se usa para publicar el proyecto de servicio que se copiará en la fase final.
