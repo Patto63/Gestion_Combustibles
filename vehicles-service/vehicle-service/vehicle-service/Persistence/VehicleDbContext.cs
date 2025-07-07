@@ -1,4 +1,3 @@
-﻿using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using VehicleService.Domain.Entities;
 
