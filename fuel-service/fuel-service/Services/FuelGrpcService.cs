@@ -74,6 +74,12 @@ public class FuelGrpcService : FuelService.FuelServiceBase
         ActualizadoEn = c.ActualizadoEn != null ? Timestamp.FromDateTime(c.ActualizadoEn.Value.ToUniversalTime()) : null
     };
 
+    private static TipoMaquinariaDto ToDto(TipoMaquinaria t) => new()
+    {
+        TipoMaquinariaId = t.TipoMaquinariaId,
+        Nombre = t.Nombre
+    };
+
     // Registros CRUD
     public override async Task<RegistroCombustibleDto> CrearRegistro(RegistroCombustibleCreateRequest request, ServerCallContext context)
     {
@@ -291,6 +297,51 @@ public class FuelGrpcService : FuelService.FuelServiceBase
         if (entity == null)
             throw new RpcException(new Status(StatusCode.NotFound, "Consumo no encontrado"));
         _context.ConsumosTipoMaquinaria.Remove(entity);
+        await _context.SaveChangesAsync();
+        return new Empty();
+    }
+
+    // Tipo Maquinaria CRUD
+    public override async Task<TipoMaquinariaDto> CrearTipoMaquinaria(TipoMaquinariaCreateRequest request, ServerCallContext context)
+    {
+        var entity = new TipoMaquinaria { Nombre = request.Nombre };
+        _context.TiposMaquinaria.Add(entity);
+        await _context.SaveChangesAsync();
+        return ToDto(entity);
+    }
+
+    public override async Task<TipoMaquinariaDto> ObtenerTipoMaquinaria(TipoMaquinariaIdRequest request, ServerCallContext context)
+    {
+        var entity = await _context.TiposMaquinaria.FindAsync(request.TipoMaquinariaId);
+        if (entity == null)
+            throw new RpcException(new Status(StatusCode.NotFound, "Tipo no encontrado"));
+        return ToDto(entity);
+    }
+
+    public override async Task<ListaTipoMaquinaria> ListarTiposMaquinaria(Empty request, ServerCallContext context)
+    {
+        var list = await _context.TiposMaquinaria.ToListAsync();
+        var res = new ListaTipoMaquinaria();
+        res.Tipos.AddRange(list.Select(ToDto));
+        return res;
+    }
+
+    public override async Task<TipoMaquinariaDto> EditarTipoMaquinaria(TipoMaquinariaUpdateRequest request, ServerCallContext context)
+    {
+        var entity = await _context.TiposMaquinaria.FindAsync(request.TipoMaquinariaId);
+        if (entity == null)
+            throw new RpcException(new Status(StatusCode.NotFound, "Tipo no encontrado"));
+        if (request.HasNombre) entity.Nombre = request.Nombre;
+        await _context.SaveChangesAsync();
+        return ToDto(entity);
+    }
+
+    public override async Task<Empty> EliminarTipoMaquinaria(TipoMaquinariaIdRequest request, ServerCallContext context)
+    {
+        var entity = await _context.TiposMaquinaria.FindAsync(request.TipoMaquinariaId);
+        if (entity == null)
+            throw new RpcException(new Status(StatusCode.NotFound, "Tipo no encontrado"));
+        _context.TiposMaquinaria.Remove(entity);
         await _context.SaveChangesAsync();
         return new Empty();
     }
