@@ -24,6 +24,11 @@ namespace VehicleService.Services
                 if (await _context.Vehiculos.AnyAsync(v => v.Placa == request.Placa))
                     throw new RpcException(new Status(StatusCode.AlreadyExists, "Ya existe un vehículo con esa placa."));
 
+                // Validar existencia del tipo de maquinaria solicitado
+                bool tipoExiste = await _context.TipoVehiculos.AnyAsync(t => t.Id == request.TipoMaquinariaId);
+                if (!tipoExiste)
+                    throw new RpcException(new Status(StatusCode.NotFound, "Tipo de maquinaria no encontrado"));
+
                 var vehiculo = new Vehiculo
                 {
                     Placa = request.Placa,
