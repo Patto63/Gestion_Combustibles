@@ -3,6 +3,7 @@ using Gateway.API.Models;
 using Google.Protobuf.WellKnownTypes;
 using AlertsGrpc = AlertsService;
 using AlertsGrpcService = AlertsService.AlertsService;
+
 using GrpcAlertDto = AlertsService.AlertaDto;
 
 namespace Gateway.API.GrpcClients;
@@ -11,6 +12,7 @@ public class AlertsGrpcClient
 {
     private readonly AlertsGrpcService.AlertsServiceClient _client;
 
+
     public AlertsGrpcClient(IConfiguration configuration)
     {
         var url = configuration["GrpcSettings:AlertsService"];
@@ -18,7 +20,9 @@ public class AlertsGrpcClient
             throw new InvalidOperationException("No se configuró la URL del microservicio de alertas.");
 
         var channel = GrpcChannel.ForAddress(url);
+
         _client = new AlertsGrpcService.AlertsServiceClient(channel);
+
     }
 
     public async Task<IEnumerable<AlertaDto>> GetAllAsync()
@@ -45,18 +49,21 @@ public class AlertsGrpcClient
     public async Task<IEnumerable<AlertaDto>> GetByVehiculoAsync(string codigo)
     {
         var response = await _client.AlertasPorVehiculoAsync(new AlertsGrpc.CodigoVehiculoRequest { CodigoVehiculo = codigo });
+
         return response.Alertas.Select(MapDto);
     }
 
     public async Task<IEnumerable<AlertaDto>> GetByConductorAsync(string codigo)
     {
         var response = await _client.AlertasPorConductorAsync(new AlertsGrpc.CodigoConductorRequest { CodigoConductor = codigo });
+
         return response.Alertas.Select(MapDto);
     }
 
     public async Task<IEnumerable<AlertaDto>> GetByRutaAsync(string codigo)
     {
         var response = await _client.AlertasPorRutaAsync(new AlertsGrpc.CodigoRutaRequest { CodigoRuta = codigo });
+
         return response.Alertas.Select(MapDto);
     }
 
@@ -65,6 +72,7 @@ public class AlertsGrpcClient
         try
         {
             var a = await _client.ObtenerAlertaAsync(new AlertsGrpc.AlertaIdRequest { AlertaId = id });
+
             return MapDto(a);
         }
         catch (Grpc.Core.RpcException ex) when (ex.StatusCode == Grpc.Core.StatusCode.NotFound)
@@ -94,6 +102,7 @@ public class AlertsGrpcClient
     public async Task<AlertaDto> UpdateAsync(int id, AlertaUpdateRequestModel request)
     {
         var grpcRequest = new AlertsGrpc.AlertaUpdateRequest { AlertaId = id };
+
         if (request.CodigoVehiculo != null) grpcRequest.CodigoVehiculo = request.CodigoVehiculo;
         if (request.CodigoConductor != null) grpcRequest.CodigoConductor = request.CodigoConductor;
         if (request.CodigoRuta != null) grpcRequest.CodigoRuta = request.CodigoRuta;
