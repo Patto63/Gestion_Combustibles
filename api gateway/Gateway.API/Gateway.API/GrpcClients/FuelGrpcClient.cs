@@ -36,4 +36,24 @@ public class FuelGrpcClient
             CostoTotal = r.CostoTotal
         });
     }
+
+    public async Task<IEnumerable<Models.ConsumoTipoMaquinariaDto>> GetConsumoTipoMaquinariaAsync()
+    {
+        var response = await _client.ListarConsumoTipoMaquinariaAsync(new Empty());
+        return response.Consumos.Select(c => new Models.ConsumoTipoMaquinariaDto
+        {
+            ConsumoMaquinariaId = c.ConsumoMaquinariaId,
+            TipoMaquinaria = c.TipoMaquinaria,
+            Periodo = c.Periodo,
+            TotalVehiculos = c.TotalVehiculos,
+            DistanciaTotal = c.DistanciaTotal,
+            CombustibleTotal = c.CombustibleTotal,
+            CostoTotal = c.CostoTotal,
+            ConsumoPromedio = c.ConsumoPromedio,
+            ConsumoEstimado = c.ConsumoEstimado,
+            PorcentajeDiferencia = c.PorcentajeDiferencia,
+            CreadoEn = c.CreadoEn.ToDateTime(),
+            ActualizadoEn = c.ActualizadoEn.ToDateTime()
+        });
+    }
 }
