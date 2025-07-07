@@ -10,12 +10,14 @@ public class FuelDbContext : DbContext
     public DbSet<RegistroCombustible> RegistrosCombustible => Set<RegistroCombustible>();
     public DbSet<ConsumoCombustibleRuta> ConsumosRuta => Set<ConsumoCombustibleRuta>();
     public DbSet<ConsumoCombustibleTipoMaquinaria> ConsumosTipoMaquinaria => Set<ConsumoCombustibleTipoMaquinaria>();
+    public DbSet<TipoMaquinaria> TiposMaquinaria => Set<TipoMaquinaria>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<RegistroCombustible>().ToTable("registros_combustible");
         modelBuilder.Entity<ConsumoCombustibleRuta>().ToTable("consumo_combustible_ruta");
         modelBuilder.Entity<ConsumoCombustibleTipoMaquinaria>().ToTable("consumo_combustible_tipo_maquinaria");
+        modelBuilder.Entity<TipoMaquinaria>().ToTable("tipo_maquinaria");
 
         var registro = modelBuilder.Entity<RegistroCombustible>();
         registro.HasKey(r => r.RegistroId);
@@ -71,5 +73,10 @@ public class FuelDbContext : DbContext
         maq.Property(m => m.PorcentajeDiferencia).HasColumnName("porcentaje_diferencia");
         maq.Property(m => m.CreadoEn).HasColumnName("creado_en");
         maq.Property(m => m.ActualizadoEn).HasColumnName("actualizado_en");
+
+        var tipo = modelBuilder.Entity<TipoMaquinaria>();
+        tipo.HasKey(t => t.TipoMaquinariaId);
+        tipo.Property(t => t.TipoMaquinariaId).HasColumnName("tipo_maquinaria_id");
+        tipo.Property(t => t.Nombre).HasColumnName("nombre");
     }
 }

@@ -164,6 +164,22 @@ message ConsumoTipoMaquinariaUpdateRequest {
 
 message ListaConsumoTipoMaquinaria { repeated ConsumoTipoMaquinariaDto consumos = 1; }
 
+message TipoMaquinariaDto {
+  int32 tipoMaquinariaId = 1;
+  string nombre = 2;
+}
+
+message TipoMaquinariaCreateRequest { string nombre = 1; }
+
+message TipoMaquinariaIdRequest { int32 tipoMaquinariaId = 1; }
+
+message TipoMaquinariaUpdateRequest {
+  int32 tipoMaquinariaId = 1;
+  optional string nombre = 2;
+}
+
+message ListaTipoMaquinaria { repeated TipoMaquinariaDto tipos = 1; }
+
 service FuelService {
   // Registros de Combustible
   rpc CrearRegistro (RegistroCombustibleCreateRequest) returns (RegistroCombustibleDto);
@@ -185,4 +201,11 @@ service FuelService {
   rpc ListarConsumoTipoMaquinaria (google.protobuf.Empty) returns (ListaConsumoTipoMaquinaria);
   rpc EditarConsumoTipoMaquinaria (ConsumoTipoMaquinariaUpdateRequest) returns (ConsumoTipoMaquinariaDto);
   rpc EliminarConsumoTipoMaquinaria (ConsumoTipoMaquinariaIdRequest) returns (google.protobuf.Empty);
+
+  // Tipos de Maquinaria
+  rpc CrearTipoMaquinaria (TipoMaquinariaCreateRequest) returns (TipoMaquinariaDto);
+  rpc ObtenerTipoMaquinaria (TipoMaquinariaIdRequest) returns (TipoMaquinariaDto);
+  rpc ListarTiposMaquinaria (google.protobuf.Empty) returns (ListaTipoMaquinaria);
+  rpc EditarTipoMaquinaria (TipoMaquinariaUpdateRequest) returns (TipoMaquinariaDto);
+  rpc EliminarTipoMaquinaria (TipoMaquinariaIdRequest) returns (google.protobuf.Empty);
 }
