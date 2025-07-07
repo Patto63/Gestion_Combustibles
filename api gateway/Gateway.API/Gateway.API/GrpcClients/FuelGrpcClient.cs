@@ -1,7 +1,7 @@
 using Grpc.Net.Client;
 using Gateway.API.Models;
 using Google.Protobuf.WellKnownTypes;
-using FuelService;
+using FuelProto = FuelService;
 using FuelRecordGrpc = FuelService.RegistroCombustibleDto;
 using FuelGrpcService = FuelService.FuelService;
 
@@ -56,4 +56,5 @@ public class FuelGrpcClient
             ActualizadoEn = c.ActualizadoEn.ToDateTime()
         });
     }
+
 }
