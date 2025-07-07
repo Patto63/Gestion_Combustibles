@@ -37,53 +37,24 @@ public class FuelGrpcClient
         });
     }
 
-    public async Task<IEnumerable<TipoMaquinariaDto>> GetTiposAsync()
+    public async Task<IEnumerable<Models.ConsumoTipoMaquinariaDto>> GetConsumoTipoMaquinariaAsync()
     {
-        var response = await _client.ListarTiposMaquinariaAsync(new Empty());
-        return response.Tipos.Select(t => new TipoMaquinariaDto
+        var response = await _client.ListarConsumoTipoMaquinariaAsync(new Empty());
+        return response.Consumos.Select(c => new Models.ConsumoTipoMaquinariaDto
         {
-            TipoMaquinariaId = t.TipoMaquinariaId,
-            Nombre = t.Nombre
+            ConsumoMaquinariaId = c.ConsumoMaquinariaId,
+            TipoMaquinaria = c.TipoMaquinaria,
+            Periodo = c.Periodo,
+            TotalVehiculos = c.TotalVehiculos,
+            DistanciaTotal = c.DistanciaTotal,
+            CombustibleTotal = c.CombustibleTotal,
+            CostoTotal = c.CostoTotal,
+            ConsumoPromedio = c.ConsumoPromedio,
+            ConsumoEstimado = c.ConsumoEstimado,
+            PorcentajeDiferencia = c.PorcentajeDiferencia,
+            CreadoEn = c.CreadoEn.ToDateTime(),
+            ActualizadoEn = c.ActualizadoEn.ToDateTime()
         });
     }
 
-    public async Task<TipoMaquinariaDto?> GetTipoByIdAsync(int id)
-    {
-        try
-        {
-            var t = await _client.ObtenerTipoMaquinariaAsync(new FuelProto.TipoMaquinariaIdRequest { TipoMaquinariaId = id });
-            return new TipoMaquinariaDto { TipoMaquinariaId = t.TipoMaquinariaId, Nombre = t.Nombre };
-        }
-        catch (Grpc.Core.RpcException ex) when (ex.StatusCode == Grpc.Core.StatusCode.NotFound)
-        {
-            return null;
-        }
-    }
-
-    public async Task<TipoMaquinariaDto> CreateTipoAsync(TipoMaquinariaCreateRequest request)
-    {
-        var res = await _client.CrearTipoMaquinariaAsync(new FuelProto.TipoMaquinariaCreateRequest { Nombre = request.Nombre });
-        return new TipoMaquinariaDto { TipoMaquinariaId = res.TipoMaquinariaId, Nombre = res.Nombre };
-    }
-
-    public async Task<TipoMaquinariaDto> UpdateTipoAsync(int id, TipoMaquinariaUpdateRequest request)
-    {
-        var grpc = new FuelProto.TipoMaquinariaUpdateRequest { TipoMaquinariaId = id };
-        if (request.Nombre != null) grpc.Nombre = request.Nombre;
-        var res = await _client.EditarTipoMaquinariaAsync(grpc);
-        return new TipoMaquinariaDto { TipoMaquinariaId = res.TipoMaquinariaId, Nombre = res.Nombre };
-    }
-
-    public async Task<bool> DeleteTipoAsync(int id)
-    {
-        try
-        {
-            await _client.EliminarTipoMaquinariaAsync(new FuelProto.TipoMaquinariaIdRequest { TipoMaquinariaId = id });
-            return true;
-        }
-        catch (Grpc.Core.RpcException ex) when (ex.StatusCode == Grpc.Core.StatusCode.NotFound)
-        {
-            return false;
-        }
-    }
 }
