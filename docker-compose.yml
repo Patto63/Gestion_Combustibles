@@ -63,6 +63,8 @@ services:
       GrpcSettings__FuelService: "http://fuel-service:8080"
       GrpcSettings__RoutesService: "http://routes-service:8080"
       GrpcSettings__AlertsService: "http://alerts-service:8080"
+      # Enable Swagger in the gateway by running in Development mode
+      ASPNETCORE_ENVIRONMENT: Development
     depends_on:
       - vehicles-service
       - drivers-service
