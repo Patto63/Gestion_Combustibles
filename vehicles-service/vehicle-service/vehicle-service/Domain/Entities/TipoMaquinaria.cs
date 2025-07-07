@@ -1,8 +1,8 @@
 namespace VehicleService.Domain.Entities;
 
-public class TipoVehiculo
+public class TipoMaquinaria
 {
-    public int Id { get; set; }
+    public int TipoMaquinariaId { get; set; }
     public required string Nombre { get; set; }
 
     public ICollection<Vehiculo>? Vehiculos { get; set; }

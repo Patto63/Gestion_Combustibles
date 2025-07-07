@@ -30,7 +30,7 @@ namespace VehicleService.Services
                     Marca = request.Marca,
                     Modelo = request.Modelo,
                     Anio = request.Anio,
-                    TipoVehiculoId = request.TipoMaquinariaId,
+                    TipoMaquinariaId = request.TipoMaquinariaId,
                     EstadoOperativo = true,
                     CapacidadTanqueGalones = (decimal)request.CapacidadTanqueGalones,
                     CombustibleActualGalones = (decimal)request.CombustibleActualGalones
@@ -46,7 +46,7 @@ namespace VehicleService.Services
                     Marca = vehiculo.Marca,
                     Modelo = vehiculo.Modelo,
                     Anio = vehiculo.Anio,
-                    TipoMaquinariaId = vehiculo.TipoVehiculoId,
+                    TipoMaquinariaId = vehiculo.TipoMaquinariaId,
                     EstadoOperativo = vehiculo.EstadoOperativo,
                     CapacidadTanqueGalones = Convert.ToDouble(vehiculo.CapacidadTanqueGalones),
                     CombustibleActualGalones = Convert.ToDouble(vehiculo.CombustibleActualGalones)
@@ -74,7 +74,7 @@ namespace VehicleService.Services
                     Marca = v.Marca,
                     Modelo = v.Modelo,
                     Anio = v.Anio,
-                    TipoMaquinariaId = v.TipoVehiculoId,
+                    TipoMaquinariaId = v.TipoMaquinariaId,
                     EstadoOperativo = v.EstadoOperativo,
                     CapacidadTanqueGalones = Convert.ToDouble(v.CapacidadTanqueGalones),
                     CombustibleActualGalones = Convert.ToDouble(v.CombustibleActualGalones)
@@ -104,7 +104,7 @@ namespace VehicleService.Services
                 Marca = vehiculo.Marca,
                 Modelo = vehiculo.Modelo,
                 Anio = vehiculo.Anio,
-                TipoMaquinariaId = vehiculo.TipoVehiculoId,
+                TipoMaquinariaId = vehiculo.TipoMaquinariaId,
                 EstadoOperativo = vehiculo.EstadoOperativo,
                 CapacidadTanqueGalones = Convert.ToDouble(vehiculo.CapacidadTanqueGalones),
                 CombustibleActualGalones = Convert.ToDouble(vehiculo.CombustibleActualGalones)
@@ -133,7 +133,7 @@ namespace VehicleService.Services
                 if (request.HasMarca) vehiculo.Marca = request.Marca;
                 if (request.HasModelo) vehiculo.Modelo = request.Modelo;
                 if (request.HasAnio) vehiculo.Anio = request.Anio;
-                if (request.HasTipoMaquinariaId) vehiculo.TipoVehiculoId = request.TipoMaquinariaId;
+                if (request.HasTipoMaquinariaId) vehiculo.TipoMaquinariaId = request.TipoMaquinariaId;
                 if (request.HasEstadoOperativo) vehiculo.EstadoOperativo = request.EstadoOperativo;
                 if (request.HasCapacidadTanqueGalones) vehiculo.CapacidadTanqueGalones = (decimal)request.CapacidadTanqueGalones;
                 if (request.HasCombustibleActualGalones) vehiculo.CombustibleActualGalones = (decimal)request.CombustibleActualGalones;
@@ -147,7 +147,7 @@ namespace VehicleService.Services
                     Marca = vehiculo.Marca,
                     Modelo = vehiculo.Modelo,
                     Anio = vehiculo.Anio,
-                    TipoMaquinariaId = vehiculo.TipoVehiculoId,
+                    TipoMaquinariaId = vehiculo.TipoMaquinariaId,
                     EstadoOperativo = vehiculo.EstadoOperativo,
                     CapacidadTanqueGalones = (double)vehiculo.CapacidadTanqueGalones,
                     CombustibleActualGalones = (double)vehiculo.CombustibleActualGalones
@@ -197,7 +197,7 @@ namespace VehicleService.Services
                     query = query.Where(v => v.Anio == request.Anio);
 
                 if (request.TipoMaquinariaId != 0)
-                    query = query.Where(v => v.TipoVehiculoId == request.TipoMaquinariaId);
+                    query = query.Where(v => v.TipoMaquinariaId == request.TipoMaquinariaId);
 
                 if (request.EstadoOperativo)
                     query = query.Where(v => v.EstadoOperativo == request.EstadoOperativo);
@@ -218,7 +218,7 @@ namespace VehicleService.Services
                     Marca = v.Marca,
                     Modelo = v.Modelo,
                     Anio = v.Anio,
-                    TipoMaquinariaId = v.TipoVehiculoId,
+                    TipoMaquinariaId = v.TipoMaquinariaId,
                     EstadoOperativo = v.EstadoOperativo,
                     CapacidadTanqueGalones = Convert.ToDouble(v.CapacidadTanqueGalones),
                     CombustibleActualGalones = Convert.ToDouble(v.CombustibleActualGalones)
