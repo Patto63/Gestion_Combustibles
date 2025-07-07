@@ -1,14 +1,13 @@
 using Grpc.Net.Client;
 using Gateway.API.Models;
 using Google.Protobuf.WellKnownTypes;
-using AlertsService;
 using GrpcAlertDto = AlertsService.AlertaDto;
 
 namespace Gateway.API.GrpcClients;
 
 public class AlertsGrpcClient
 {
-    private readonly AlertsService.AlertsServiceClient _client;
+    private readonly global::AlertsService.AlertsService.AlertsServiceClient _client;
 
     public AlertsGrpcClient(IConfiguration configuration)
     {
@@ -17,7 +16,7 @@ public class AlertsGrpcClient
             throw new InvalidOperationException("No se configuró la URL del microservicio de alertas.");
 
         var channel = GrpcChannel.ForAddress(url);
-        _client = new AlertsService.AlertsServiceClient(channel);
+        _client = new global::AlertsService.AlertsService.AlertsServiceClient(channel);
     }
 
     public async Task<IEnumerable<AlertaDto>> GetAllAsync()
@@ -43,19 +42,19 @@ public class AlertsGrpcClient
 
     public async Task<IEnumerable<AlertaDto>> GetByVehiculoAsync(string codigo)
     {
-        var response = await _client.AlertasPorVehiculoAsync(new CodigoVehiculoRequest { CodigoVehiculo = codigo });
+        var response = await _client.AlertasPorVehiculoAsync(new global::AlertsService.CodigoVehiculoRequest { CodigoVehiculo = codigo });
         return response.Alertas.Select(MapDto);
     }
 
     public async Task<IEnumerable<AlertaDto>> GetByConductorAsync(string codigo)
     {
-        var response = await _client.AlertasPorConductorAsync(new CodigoConductorRequest { CodigoConductor = codigo });
+        var response = await _client.AlertasPorConductorAsync(new global::AlertsService.CodigoConductorRequest { CodigoConductor = codigo });
         return response.Alertas.Select(MapDto);
     }
 
     public async Task<IEnumerable<AlertaDto>> GetByRutaAsync(string codigo)
     {
-        var response = await _client.AlertasPorRutaAsync(new CodigoRutaRequest { CodigoRuta = codigo });
+        var response = await _client.AlertasPorRutaAsync(new global::AlertsService.CodigoRutaRequest { CodigoRuta = codigo });
         return response.Alertas.Select(MapDto);
     }
 
@@ -63,7 +62,7 @@ public class AlertsGrpcClient
     {
         try
         {
-            var a = await _client.ObtenerAlertaAsync(new AlertaIdRequest { AlertaId = id });
+            var a = await _client.ObtenerAlertaAsync(new global::AlertsService.AlertaIdRequest { AlertaId = id });
             return MapDto(a);
         }
         catch (Grpc.Core.RpcException ex) when (ex.StatusCode == Grpc.Core.StatusCode.NotFound)
@@ -74,7 +73,7 @@ public class AlertsGrpcClient
 
     public async Task<AlertaDto> CreateAsync(AlertaCreateRequestModel request)
     {
-        var grpcRequest = new AlertsService.AlertaCreateRequest
+        var grpcRequest = new global::AlertsService.AlertaCreateRequest
         {
             CodigoVehiculo = request.CodigoVehiculo,
             CodigoConductor = request.CodigoConductor,
@@ -92,7 +91,7 @@ public class AlertsGrpcClient
 
     public async Task<AlertaDto> UpdateAsync(int id, AlertaUpdateRequestModel request)
     {
-        var grpcRequest = new AlertsService.AlertaUpdateRequest { AlertaId = id };
+        var grpcRequest = new global::AlertsService.AlertaUpdateRequest { AlertaId = id };
         if (request.CodigoVehiculo != null) grpcRequest.CodigoVehiculo = request.CodigoVehiculo;
         if (request.CodigoConductor != null) grpcRequest.CodigoConductor = request.CodigoConductor;
         if (request.CodigoRuta != null) grpcRequest.CodigoRuta = request.CodigoRuta;
@@ -112,7 +111,7 @@ public class AlertsGrpcClient
     {
         try
         {
-            await _client.EliminarAlertaAsync(new AlertaIdRequest { AlertaId = id });
+            await _client.EliminarAlertaAsync(new global::AlertsService.AlertaIdRequest { AlertaId = id });
             return true;
         }
         catch (Grpc.Core.RpcException ex) when (ex.StatusCode == Grpc.Core.StatusCode.NotFound)
